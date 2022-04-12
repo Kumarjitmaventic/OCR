@@ -31,7 +31,7 @@ public class UserRESTController {
         return services.GetUserById(userId);
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/user/email/{id}")
     public  User GetUserByEmail(@PathVariable("id") String userId) throws Exception {
 
         return services.GetUserByEmail(userId);
