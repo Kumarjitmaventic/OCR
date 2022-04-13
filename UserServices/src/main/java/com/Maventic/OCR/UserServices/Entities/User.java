@@ -8,6 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.List;
 
 @Entity
 @Table(name = "user_profile")
@@ -80,6 +81,12 @@ public class User {
     @Column(name = "created_by",length = 40,nullable = true)
     private String CreatedBy;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "userId"
+    )
+    private List<ActivityLog> activityLogs;
 
 
 //**************** all Constructor ***********************************************************

@@ -2,7 +2,7 @@ package com.Maventic.OCR.UserServices.Controller;
 
 import com.Maventic.OCR.UserServices.Beans.UserPassword;
 import com.Maventic.OCR.UserServices.Entities.User;
-import com.Maventic.OCR.UserServices.Services.UserServices;
+import com.Maventic.OCR.UserServices.Services.UserService.UserServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

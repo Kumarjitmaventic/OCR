@@ -1,4 +1,4 @@
-package com.Maventic.OCR.UserServices.Services;
+package com.Maventic.OCR.UserServices.Services.UserService;
 
 import com.Maventic.OCR.UserServices.Beans.UserPassword;
 import com.Maventic.OCR.UserServices.CustomException.Exception.InternalServerError;
@@ -16,17 +16,17 @@ import java.sql.Time;
 import java.util.*;
 
 @Service
-public class UserServiceC implements UserServices{
+public class UserServicesC implements UserServices {
     private Random random = new Random();
     long now = System.currentTimeMillis();
 
     //Logger Object
-    private final Logger Log = LoggerFactory.getLogger(UserServiceC.class);
+    private final Logger Log = LoggerFactory.getLogger(UserServicesC.class);
 
     @Autowired
     private UserRepository userRepository;
 
-    public UserServiceC(UserRepository userRepository) {
+    public UserServicesC(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
