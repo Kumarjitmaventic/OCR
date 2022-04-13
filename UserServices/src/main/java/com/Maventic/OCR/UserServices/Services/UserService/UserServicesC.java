@@ -3,9 +3,13 @@ package com.Maventic.OCR.UserServices.Services.UserService;
 import com.Maventic.OCR.UserServices.Beans.UserPassword;
 import com.Maventic.OCR.UserServices.CustomException.Exception.InternalServerError;
 import com.Maventic.OCR.UserServices.CustomException.Exception.WrongValueException;
+import com.Maventic.OCR.UserServices.Entities.ActivityLog;
 import com.Maventic.OCR.UserServices.Entities.User;
 import com.Maventic.OCR.UserServices.CustomException.Exception.UserNotFoundException;
+import com.Maventic.OCR.UserServices.Repository.ActivityLogRepository;
 import com.Maventic.OCR.UserServices.Repository.UserRepository;
+import com.Maventic.OCR.UserServices.Services.ActivityServices.ActivityServices;
+import com.Maventic.OCR.UserServices.Utilities.CreateActivity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +21,18 @@ import java.util.*;
 
 @Service
 public class UserServicesC implements UserServices {
+
     private Random random = new Random();
     long now = System.currentTimeMillis();
 
     //Logger Object
     private final Logger Log = LoggerFactory.getLogger(UserServicesC.class);
 
+    //Utilities Create Activity object for create Activity log  ##autometion
+    @Autowired
+    private CreateActivity createActivity;
+
+    // Creating User Services
     @Autowired
     private UserRepository userRepository;
 
@@ -50,6 +60,7 @@ public class UserServicesC implements UserServices {
 
     @Override
     public User CreateUser(User newUser) throws Exception {
+        boolean activityCreationStatus = true;
 
         // creating random user id
         try{
@@ -62,6 +73,7 @@ public class UserServicesC implements UserServices {
 
             User user = userRepository.save(newUser);
             if (user!=null){
+                createActivity.createNew(user,"01","");
                 return user;
             }
             else

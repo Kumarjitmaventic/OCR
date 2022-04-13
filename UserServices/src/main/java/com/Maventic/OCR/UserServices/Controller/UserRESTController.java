@@ -1,11 +1,14 @@
 package com.Maventic.OCR.UserServices.Controller;
 
+import com.Maventic.OCR.UserServices.Beans.SuccessMessage;
 import com.Maventic.OCR.UserServices.Beans.UserPassword;
 import com.Maventic.OCR.UserServices.Entities.User;
 import com.Maventic.OCR.UserServices.Services.UserService.UserServices;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -32,9 +35,8 @@ public class UserRESTController {
     }
 
     @GetMapping("/user/email/{id}")
-    public  User GetUserByEmail(@PathVariable("id") String userId) throws Exception {
-
-        return services.GetUserByEmail(userId);
+    public ResponseEntity<User> GetUserByEmail(@PathVariable("id") String userId) throws Exception {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(services.GetUserByEmail(userId));
     }
 
     @PostMapping("/user/new")

@@ -1,6 +1,7 @@
 package com.Maventic.OCR.UserServices.Beans;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 
 import java.util.Date;
@@ -8,8 +9,11 @@ import java.util.Date;
 
 public class HttpResponseMessage {
    private Date timeStamp;
-   private HttpStatus status;
-   private String message;
+   private HttpStatus httpStatus;
+
+   @Autowired
+   private ErrorMessage message;
+
    private String path;
    private String messageDescription;
 
@@ -18,25 +22,25 @@ public class HttpResponseMessage {
     }
 
 
-    public HttpResponseMessage(Date timeStamp, HttpStatus status, String message, String path, String messageDescription) {
+    public HttpResponseMessage(Date timeStamp, HttpStatus httpStatus, ErrorMessage message, String path, String messageDescription) {
         this.timeStamp = timeStamp;
-        this.status = status;
+        this.httpStatus = httpStatus;
         this.message = message;
         this.path = path;
         this.messageDescription = messageDescription;
     }
 
-    public HttpResponseMessage( HttpStatus status, String message, String path, String messageDescription) {
+    public HttpResponseMessage(HttpStatus httpStatus, ErrorMessage message, String path, String messageDescription) {
         this.timeStamp = new Date();
-        this.status = status;
+        this.httpStatus = httpStatus;
         this.message = message;
         this.path = path;
         this.messageDescription = messageDescription;
     }
-    public HttpResponseMessage( HttpStatus status, String message) {
+    public HttpResponseMessage(HttpStatus httpStatus, ErrorMessage message) {
         this.timeStamp = new Date();
-        this.status = status;
-        this.message = message;
+        this.httpStatus = httpStatus;
+        this.message =  message;
         this.path = "";
         this.messageDescription = "";
     }
@@ -50,19 +54,19 @@ public class HttpResponseMessage {
         this.timeStamp = timeStamp;
     }
 
-    public HttpStatus getStatus() {
-        return status;
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
     }
 
-    public void setStatus(HttpStatus status) {
-        this.status = status;
+    public void setHttpStatus(HttpStatus httpStatus) {
+        this.httpStatus = httpStatus;
     }
 
-    public String getMessage() {
+    public ErrorMessage getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(ErrorMessage message) {
         this.message = message;
     }
 
@@ -86,7 +90,7 @@ public class HttpResponseMessage {
     public String toString() {
         return "HttpResponseMessage{" +
                 "timeStamp=" + timeStamp +
-                ", status=" + status +
+                ", status=" + httpStatus +
                 ", message='" + message + '\'' +
                 ", path='" + path + '\'' +
                 ", messageDescription='" + messageDescription + '\'' +

@@ -1,5 +1,6 @@
 package com.Maventic.OCR.UserServices.CustomException;
 
+import com.Maventic.OCR.UserServices.Beans.ErrorMessage;
 import com.Maventic.OCR.UserServices.Beans.HttpResponseMessage;
 import com.Maventic.OCR.UserServices.CustomException.Exception.BadRequestException;
 import com.Maventic.OCR.UserServices.CustomException.Exception.InternalServerError;
@@ -19,32 +20,32 @@ public class RestResponseEntityExceptionHandling extends ResponseEntityException
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<HttpResponseMessage> userNotFoundException(UserNotFoundException exception, WebRequest request){
-        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_FOUND,exception.getMessage());
+        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_FOUND, new ErrorMessage(exception.getMessage()));
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessage);
     }
 
     @ExceptionHandler(WrongValueException.class)
     public ResponseEntity<HttpResponseMessage> wrongValueException(WrongValueException exception, WebRequest request){
-        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_ACCEPTABLE,exception.getMessage());
+        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_ACCEPTABLE,new ErrorMessage(exception.getMessage()));
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorMessage);
     }
 
     @ExceptionHandler(InternalServerError.class)
     public ResponseEntity<HttpResponseMessage> internalServerError(InternalServerError exception, WebRequest request){
-        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.INTERNAL_SERVER_ERROR,exception.getMessage());
+        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.INTERNAL_SERVER_ERROR,new ErrorMessage(exception.getMessage()));
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity<HttpResponseMessage> BadRequestException(BadRequestException exception, WebRequest request){
-        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.BAD_REQUEST,exception.getMessage());
+        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.BAD_REQUEST,new ErrorMessage(exception.getMessage()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<HttpResponseMessage> general(Exception exception, WebRequest request){
-//        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_FOUND,exception.getMessage());
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
-//    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<HttpResponseMessage> general(Exception exception, WebRequest request){
+        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_FOUND,new ErrorMessage(exception.getMessage()));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
+    }
 }

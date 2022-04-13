@@ -9,4 +9,6 @@ public interface ActivityServices {
     public ActivityLog CreateActivityLog(ActivityLog activityLog) throws Exception;
 
     public List<ActivityLog> fetchActivityLogByCompany (String companyId) throws Exception;
+
+    public List<ActivityLog> fetchActivityLogByUser(String userId) throws Exception;
 }

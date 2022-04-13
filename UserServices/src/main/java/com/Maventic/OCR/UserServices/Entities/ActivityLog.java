@@ -10,10 +10,11 @@ import java.sql.Time;
 public class ActivityLog {
 
     @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     private String activityId;
 
-    @Column(name = "customer_id",length = 40,nullable = false)
-    private String customerId;
+    @Column(name = "company_id",length = 40,nullable = false)
+    private String companyId;
 
     @Column(name = "date",nullable = false)
     private Date date;
@@ -43,12 +44,20 @@ public class ActivityLog {
     public ActivityLog() {
     }
 
-    public ActivityLog(String activityId, String customerId, Date date, User user, Time time, String activityType, String ip) {
+    public ActivityLog(String activityId, String companyId, Date date, User user, Time time, String activityType, String ip) {
         this.activityId = activityId;
-        this.customerId = customerId;
+        this.companyId = companyId;
         this.date = date;
         this.user = user;
         this.time = time;
+        this.activityType = activityType;
+        this.ip = ip;
+    }
+
+    public ActivityLog(String companyId, User user, String activityType, String ip) {
+        this.activityId = user.getUserId();
+        this.companyId = companyId;
+        this.user = user;
         this.activityType = activityType;
         this.ip = ip;
     }
@@ -62,12 +71,12 @@ public class ActivityLog {
         this.activityId = activityId;
     }
 
-    public String getCustomerId() {
-        return customerId;
+    public String getCompanyId() {
+        return companyId;
     }
 
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
     }
 
     public Date getDate() {
@@ -116,7 +125,7 @@ public class ActivityLog {
     public String toString() {
         return "ActivityLog{" +
                 "activityId='" + activityId + '\'' +
-                ", customerId='" + customerId + '\'' +
+                ", customerId='" + companyId + '\'' +
                 ", date=" + date +
                 ", user=" + user +
                 ", time=" + time +

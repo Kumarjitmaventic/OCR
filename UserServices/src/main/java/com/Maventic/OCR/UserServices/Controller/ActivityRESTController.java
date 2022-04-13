@@ -26,12 +26,11 @@ public class ActivityRESTController {
         return services.CreateActivityLog(activityLog);
     }
 
-    @GetMapping("/user/get/activityLog")
+    @GetMapping("/admin/get/activityLog")
     public List<ActivityLog> GetActivityLog(@RequestParam("companyId") Optional<String> companyId, @RequestParam("userId") Optional<String> userId) throws Exception{
-//        return services.fetchActivityLogByCompany(companyId);
 
         if(userId.isPresent()){
-            return services.fetchActivityLogByCompany(userId.get());
+            return services.fetchActivityLogByUser(userId.get());
         }
         else if(companyId.isPresent()){
             return services.fetchActivityLogByCompany(companyId.get());
