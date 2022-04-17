@@ -1,4 +1,4 @@
-package com.Maventic.OCR.UserServices.Beans;
+package com.Maventic.OCR.UserServices.Models;
 
 import org.hibernate.mapping.Any;
 

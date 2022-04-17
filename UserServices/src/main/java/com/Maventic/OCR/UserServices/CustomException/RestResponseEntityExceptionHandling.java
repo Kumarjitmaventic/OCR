@@ -1,7 +1,7 @@
 package com.Maventic.OCR.UserServices.CustomException;
 
-import com.Maventic.OCR.UserServices.Beans.ErrorMessage;
-import com.Maventic.OCR.UserServices.Beans.HttpResponseMessage;
+import com.Maventic.OCR.UserServices.Models.ErrorMessage;
+import com.Maventic.OCR.UserServices.Models.HttpResponseMessage;
 import com.Maventic.OCR.UserServices.CustomException.Exception.BadRequestException;
 import com.Maventic.OCR.UserServices.CustomException.Exception.InternalServerError;
 import com.Maventic.OCR.UserServices.CustomException.Exception.UserNotFoundException;
@@ -42,10 +42,18 @@ public class RestResponseEntityExceptionHandling extends ResponseEntityException
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
 
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<HttpResponseMessage> MethodArgumentNotValid(MethodArgumentNotValidException exception, WebRequest request){
+//        HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_ACCEPTABLE,new ErrorMessage("f"));
+//        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(errorMessage);
+//    }
+
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<HttpResponseMessage> general(Exception exception, WebRequest request){
         HttpResponseMessage errorMessage = new HttpResponseMessage(HttpStatus.NOT_FOUND,new ErrorMessage(exception.getMessage()));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage);
     }
+
+
 }

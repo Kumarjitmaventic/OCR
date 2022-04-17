@@ -1,16 +1,20 @@
 package com.Maventic.OCR.UserServices.Entities;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 
 
-@Entity
+@Entity(name ="activity_log")
 @Table(name = "activity_log")
 public class ActivityLog {
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "activity_id", length = 40)
     private String activityId;
 
     @Column(name = "company_id",length = 40,nullable = false)
@@ -23,7 +27,7 @@ public class ActivityLog {
             cascade = CascadeType.ALL
     )
     @JoinColumn(
-            name = "user_id",
+            name = "userId",
             referencedColumnName = "userId"
     )
     private User user;
@@ -55,7 +59,6 @@ public class ActivityLog {
     }
 
     public ActivityLog(String companyId, User user, String activityType, String ip) {
-        this.activityId = user.getUserId();
         this.companyId = companyId;
         this.user = user;
         this.activityType = activityType;

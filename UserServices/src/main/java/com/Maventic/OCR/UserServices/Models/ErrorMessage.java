@@ -1,10 +1,9 @@
-package com.Maventic.OCR.UserServices.Beans;
-
-import org.springframework.context.annotation.Bean;
+package com.Maventic.OCR.UserServices.Models;
 
 public class ErrorMessage {
     private String message;
     private String messageCause;
+    private String messageDescription;
 
     public String getMessage() {
         return message;

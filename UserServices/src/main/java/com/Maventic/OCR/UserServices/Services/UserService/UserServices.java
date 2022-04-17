@@ -1,6 +1,6 @@
 package com.Maventic.OCR.UserServices.Services.UserService;
 
-import com.Maventic.OCR.UserServices.Beans.UserPassword;
+import com.Maventic.OCR.UserServices.Models.UserPassword;
 import com.Maventic.OCR.UserServices.Entities.User;
 
 import java.util.List;

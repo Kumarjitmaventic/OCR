@@ -1,7 +1,7 @@
 package com.Maventic.OCR.UserServices.Controller;
 
-import com.Maventic.OCR.UserServices.Beans.SuccessMessage;
-import com.Maventic.OCR.UserServices.Beans.UserPassword;
+import com.Maventic.OCR.UserServices.Models.UserCredentials;
+import com.Maventic.OCR.UserServices.Models.UserPassword;
 import com.Maventic.OCR.UserServices.Entities.User;
 import com.Maventic.OCR.UserServices.Services.UserService.UserServices;
 import org.slf4j.Logger;
@@ -22,6 +22,11 @@ public class UserRESTController {
 
     @Autowired
     private UserServices services;
+
+    @GetMapping("/hello")
+    public String hello() throws Exception{
+        return "hello";
+    }
 
     @GetMapping("/user")
     public List<User> GetAllUser() throws Exception{
@@ -52,6 +57,11 @@ public class UserRESTController {
     @PutMapping("/user/update/password/{id}")
     public String UpdateUsersPassword(@Valid @RequestBody UserPassword userPassword, @PathVariable("id") String userId) throws Exception{
         return services.UpdateUsersPassword(userPassword,userId);
+    }
+
+    @PostMapping("/user/authenticate")
+    public UserCredentials UserAuth(@RequestBody UserCredentials userCredentials){
+        return null;
     }
 
 }

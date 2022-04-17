@@ -1,4 +1,4 @@
-package com.Maventic.OCR.UserServices.Beans;
+package com.Maventic.OCR.UserServices.Models;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,34 +15,33 @@ public class HttpResponseMessage {
    private ErrorMessage message;
 
    private String path;
-   private String messageDescription;
+
 
     public HttpResponseMessage() {
         this.timeStamp = new Date();
     }
 
 
-    public HttpResponseMessage(Date timeStamp, HttpStatus httpStatus, ErrorMessage message, String path, String messageDescription) {
+    public HttpResponseMessage(Date timeStamp, HttpStatus httpStatus, ErrorMessage message, String path) {
         this.timeStamp = timeStamp;
         this.httpStatus = httpStatus;
         this.message = message;
         this.path = path;
-        this.messageDescription = messageDescription;
+
     }
 
-    public HttpResponseMessage(HttpStatus httpStatus, ErrorMessage message, String path, String messageDescription) {
+    public HttpResponseMessage(HttpStatus httpStatus, ErrorMessage message, String path) {
         this.timeStamp = new Date();
         this.httpStatus = httpStatus;
         this.message = message;
         this.path = path;
-        this.messageDescription = messageDescription;
+
     }
     public HttpResponseMessage(HttpStatus httpStatus, ErrorMessage message) {
         this.timeStamp = new Date();
         this.httpStatus = httpStatus;
         this.message =  message;
         this.path = "";
-        this.messageDescription = "";
     }
 
 
@@ -78,13 +77,6 @@ public class HttpResponseMessage {
         this.path = path;
     }
 
-    public String getMessageDescription() {
-        return messageDescription;
-    }
-
-    public void setMessageDescription(String messageDescription) {
-        this.messageDescription = messageDescription;
-    }
 
     @Override
     public String toString() {
@@ -93,7 +85,6 @@ public class HttpResponseMessage {
                 ", status=" + httpStatus +
                 ", message='" + message + '\'' +
                 ", path='" + path + '\'' +
-                ", messageDescription='" + messageDescription + '\'' +
                 '}';
     }
 }

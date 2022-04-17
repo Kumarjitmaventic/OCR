@@ -1,6 +1,8 @@
 package com.Maventic.OCR.UserServices.Entities;
 
+import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.UniqueElements;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -8,14 +10,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "user_profile")
+@Table(name = "user")
 public class User {
 
     @Id
-    @Column(length = 255)
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(name = "userId", length = 40)
     private String userId;
 
     @Column(name = "api_password",length = 40,nullable = true)
@@ -54,7 +59,7 @@ public class User {
             max = 11,
             message = "Mobile no size have to be 10"
     )
-    @Column(name = "contact_no",length = 11,nullable = false,unique = true)
+    @Column(name = "contact_no",nullable = false,unique = true)
     private String contactNo;
 
     @Size(
@@ -83,7 +88,7 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(
-            name = "user_id",
+            name = "userId",
             referencedColumnName = "userId"
     )
     private List<ActivityLog> activityLogs;
@@ -116,6 +121,7 @@ public class User {
         CreatedTime = createdTime;
         CreatedBy = createdBy;
     }
+
 
 
 //**************** all getter and setter ***************************************************************************

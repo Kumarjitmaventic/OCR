@@ -32,7 +32,7 @@ public class ActivityServicesC implements ActivityServices{
 
     @Override
     public List<ActivityLog> fetchActivityLogByCompany(String companyId) throws Exception {
-        return null;
+        return activityLogRepository.findByCompanyId(companyId).get();
     }
 
     @Override

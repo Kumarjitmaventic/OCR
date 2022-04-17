@@ -1,8 +1,5 @@
-package com.Maventic.OCR.UserServices.Beans;
+package com.Maventic.OCR.UserServices.Models;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class UserPassword {

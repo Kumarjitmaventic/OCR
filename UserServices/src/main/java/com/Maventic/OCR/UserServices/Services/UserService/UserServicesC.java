@@ -1,14 +1,12 @@
 package com.Maventic.OCR.UserServices.Services.UserService;
 
-import com.Maventic.OCR.UserServices.Beans.UserPassword;
+import com.Maventic.OCR.UserServices.Models.MyUserDetails;
+import com.Maventic.OCR.UserServices.Models.UserPassword;
 import com.Maventic.OCR.UserServices.CustomException.Exception.InternalServerError;
 import com.Maventic.OCR.UserServices.CustomException.Exception.WrongValueException;
-import com.Maventic.OCR.UserServices.Entities.ActivityLog;
 import com.Maventic.OCR.UserServices.Entities.User;
 import com.Maventic.OCR.UserServices.CustomException.Exception.UserNotFoundException;
-import com.Maventic.OCR.UserServices.Repository.ActivityLogRepository;
 import com.Maventic.OCR.UserServices.Repository.UserRepository;
-import com.Maventic.OCR.UserServices.Services.ActivityServices.ActivityServices;
 import com.Maventic.OCR.UserServices.Utilities.CreateActivity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +18,7 @@ import java.sql.Time;
 import java.util.*;
 
 @Service
-public class UserServicesC implements UserServices {
+public class UserServicesC implements UserServices{
 
     private Random random = new Random();
     long now = System.currentTimeMillis();
@@ -70,7 +68,6 @@ public class UserServicesC implements UserServices {
             newUser.setUserId(userID);
             newUser.setCreatedDate(new Date(now));
             newUser.setCreatedTime(new Time(now));
-
             User user = userRepository.save(newUser);
             if (user!=null){
                 createActivity.createNew(user,"01","");
@@ -88,10 +85,22 @@ public class UserServicesC implements UserServices {
     }
 
     @Override
-    public User UpdateUser(User user, String userId) {
+    public User UpdateUser(User user, String emailId) throws Exception {
 
         // getting user details
-        User oldUser = userRepository.findById(userId).get();
+        User oldUser;
+
+        try {
+           Optional<User> fetchedUser = userRepository.findByEmail(emailId);
+            if(fetchedUser.isPresent()){
+                oldUser = fetchedUser.get();
+            }
+            else
+                throw new UserNotFoundException("User not found against "+ emailId+" this Email");
+        }
+        catch (Exception exception){
+            throw exception;
+        }
 
         // updating new data
         if(Objects.nonNull(user.getFirstName()) && !"".equalsIgnoreCase(user.getFirstName())){
@@ -113,7 +122,20 @@ public class UserServicesC implements UserServices {
             oldUser.setCreatedBy(user.getCreatedBy());
         }
 
-        return userRepository.save(oldUser);
+        User updatedUser;
+        try {
+            updatedUser = userRepository.save(oldUser);
+            if (createActivity!=null){
+                createActivity.createNew(updatedUser,"02","");
+                return updatedUser;
+            }
+            else
+                throw new InternalServerError("User creating error. Please contact with admin");
+        }
+        catch (Exception exception){
+            throw exception;
+        }
+
     }
 
     @Override
@@ -131,12 +153,18 @@ public class UserServicesC implements UserServices {
 //            return "Please enter correct Password";
         }
 
-        User updatedUser = userRepository.save(userOldData);
-        if(updatedUser!=null){
-            return "Success";
+        User updatedUser;
+        try {
+            updatedUser = userRepository.save(userOldData);
+            if (createActivity!=null){
+                createActivity.createNew(updatedUser,"03","");
+                return "Success";
+            }
+            else
+                throw new InternalServerError("User creating error. Please contact with admin");
         }
-        else{
-            throw new InternalServerError("Internal Server error. Please contact with Admin");
+        catch (Exception exception){
+            throw exception;
         }
     }
 
@@ -149,4 +177,5 @@ public class UserServicesC implements UserServices {
         else
             return user.get();
     }
+
 }
