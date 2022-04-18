@@ -1,14 +1,22 @@
 package com.Maventic.OCR.UserServices.Controller;
 
-import com.Maventic.OCR.UserServices.Models.UserCredentials;
-import com.Maventic.OCR.UserServices.Models.UserPassword;
+import com.Maventic.OCR.UserServices.Models.SuccessMessage;
+import com.Maventic.OCR.UserServices.Models.UserAuthenticateResponse;
+import com.Maventic.OCR.UserServices.Models.UserAuthenticateRequest;
+import com.Maventic.OCR.UserServices.Models.UpdatePasswordRequest;
 import com.Maventic.OCR.UserServices.Entities.User;
+import com.Maventic.OCR.UserServices.Services.UserService.UserAuthenticateServices;
 import com.Maventic.OCR.UserServices.Services.UserService.UserServices;
+import com.Maventic.OCR.UserServices.Utilities.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +31,15 @@ public class UserRESTController {
     @Autowired
     private UserServices services;
 
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    private UserAuthenticateServices userAuthenticateServices;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
     @GetMapping("/hello")
     public String hello() throws Exception{
         return "hello";
@@ -30,6 +47,7 @@ public class UserRESTController {
 
     @GetMapping("/user")
     public List<User> GetAllUser() throws Exception{
+//        SuccessMessage successMessage = new SuccessMessage(services.GetAllUser());
         return services.GetAllUser();
     }
 
@@ -55,13 +73,25 @@ public class UserRESTController {
     }
 
     @PutMapping("/user/update/password/{id}")
-    public String UpdateUsersPassword(@Valid @RequestBody UserPassword userPassword, @PathVariable("id") String userId) throws Exception{
-        return services.UpdateUsersPassword(userPassword,userId);
+    public String UpdateUsersPassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest, @PathVariable("id") String userId) throws Exception{
+        return services.UpdateUsersPassword(updatePasswordRequest,userId);
     }
 
     @PostMapping("/user/authenticate")
-    public UserCredentials UserAuth(@RequestBody UserCredentials userCredentials){
-        return null;
+    public ResponseEntity<UserAuthenticateResponse> UserAuth(@Valid @RequestBody UserAuthenticateRequest userAuthenticateRequest) throws Exception{
+
+        try {
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(userAuthenticateRequest.getUserName(), userAuthenticateRequest.getPassword())
+            );
+        }
+        catch (BadCredentialsException e){
+            throw e;
+        }
+
+        final UserDetails userDetails = userAuthenticateServices.loadUserByUsername(userAuthenticateRequest.getUserName());
+        final String jwt = jwtUtil.generateToken(userDetails);
+        return ResponseEntity.ok(new UserAuthenticateResponse(jwt));
     }
 
 }

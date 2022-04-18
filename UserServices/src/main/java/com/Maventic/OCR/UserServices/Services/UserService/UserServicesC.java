@@ -1,7 +1,6 @@
 package com.Maventic.OCR.UserServices.Services.UserService;
 
-import com.Maventic.OCR.UserServices.Models.MyUserDetails;
-import com.Maventic.OCR.UserServices.Models.UserPassword;
+import com.Maventic.OCR.UserServices.Models.UpdatePasswordRequest;
 import com.Maventic.OCR.UserServices.CustomException.Exception.InternalServerError;
 import com.Maventic.OCR.UserServices.CustomException.Exception.WrongValueException;
 import com.Maventic.OCR.UserServices.Entities.User;
@@ -112,8 +111,15 @@ public class UserServicesC implements UserServices{
         if(Objects.nonNull(user.getCompanyId()) && !"".equalsIgnoreCase(user.getCompanyId())){
             oldUser.setCompanyId(user.getCompanyId());
         }
-        if(Objects.nonNull(user.getUserRole()) && !"".equalsIgnoreCase(user.getUserRole())){
-            oldUser.setUserRole(user.getUserRole());
+
+//        if(Objects.nonNull(user.getUserRole()) && !"".equalsIgnoreCase(user.getUserRole())){
+//            oldUser.setUserRole(user.getUserRole());
+//        }
+        if(Objects.nonNull(user.getEmail()) && !"".equalsIgnoreCase(user.getEmail())){
+            oldUser.setEmail(user.getEmail());
+        }
+        if(Objects.nonNull(user.getContactNo()) && !"".equalsIgnoreCase(user.getContactNo())){
+            oldUser.setContactNo(user.getContactNo());
         }
         if(Objects.nonNull(user.getStatus()) && !"".equalsIgnoreCase(user.getStatus())){
             oldUser.setStatus(user.getStatus());
@@ -139,13 +145,13 @@ public class UserServicesC implements UserServices{
     }
 
     @Override
-    public String UpdateUsersPassword(UserPassword userPassword, String userId) throws Exception {
+    public String UpdateUsersPassword(UpdatePasswordRequest updatePasswordRequest, String userId) throws Exception {
         User userOldData = userRepository.findById(userId).get();
 
-        if(userOldData!=null && userOldData.getPassword().equals(userPassword.getOldPassword())){
-            userOldData.setPassword(userPassword.getNewPassword());
+        if(userOldData!=null && userOldData.getPassword().equals(updatePasswordRequest.getOldPassword())){
+            userOldData.setPassword(updatePasswordRequest.getNewPassword());
         }
-        else if (userPassword.getOldPassword().equals(userPassword.getNewPassword())){
+        else if (updatePasswordRequest.getOldPassword().equals(updatePasswordRequest.getNewPassword())){
             throw new WrongValueException("Please provide correct Password", new Throwable("Old password and New password can not be same"));
         }
         else {

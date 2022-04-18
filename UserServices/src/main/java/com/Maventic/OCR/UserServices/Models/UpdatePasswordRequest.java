@@ -2,7 +2,7 @@ package com.Maventic.OCR.UserServices.Models;
 
 import javax.validation.constraints.Size;
 
-public class UserPassword {
+public class UpdatePasswordRequest {
     @Size(
             min = 6,
             max = 15,
@@ -17,10 +17,10 @@ public class UserPassword {
     )
    private String NewPassword;
 
-    public UserPassword() {
+    public UpdatePasswordRequest() {
     }
 
-    public UserPassword(String oldPassword, String newPassword) {
+    public UpdatePasswordRequest(String oldPassword, String newPassword) {
 
         OldPassword = oldPassword;
         NewPassword = newPassword;

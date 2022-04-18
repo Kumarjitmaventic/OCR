@@ -1,13 +1,23 @@
 package com.Maventic.OCR.UserServices.Models;
 
-public class UserCredentials {
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
+
+public class UserAuthenticateRequest {
+    @Email(message = "Please provide proper email.")
     private String userName;
+
+    @Size(
+            min = 6,
+            max = 15,
+            message = "Password must be 6-15 character."
+    )
     private String password;
 
-    public UserCredentials() {
+    public UserAuthenticateRequest() {
     }
 
-    public UserCredentials(String userName, String password) {
+    public UserAuthenticateRequest(String userName, String password) {
         this.userName = userName;
         this.password = password;
     }
