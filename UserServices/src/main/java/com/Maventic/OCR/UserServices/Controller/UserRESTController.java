@@ -1,9 +1,6 @@
 package com.Maventic.OCR.UserServices.Controller;
 
-import com.Maventic.OCR.UserServices.Models.SuccessMessage;
-import com.Maventic.OCR.UserServices.Models.UserAuthenticateResponse;
-import com.Maventic.OCR.UserServices.Models.UserAuthenticateRequest;
-import com.Maventic.OCR.UserServices.Models.UpdatePasswordRequest;
+import com.Maventic.OCR.UserServices.Models.*;
 import com.Maventic.OCR.UserServices.Entities.User;
 import com.Maventic.OCR.UserServices.Services.UserService.UserAuthenticateServices;
 import com.Maventic.OCR.UserServices.Services.UserService.UserServices;
@@ -40,6 +37,7 @@ public class UserRESTController {
     @Autowired
     private JwtUtil jwtUtil;
 
+
     @GetMapping("/hello")
     public String hello() throws Exception{
         return "hello";
@@ -52,9 +50,9 @@ public class UserRESTController {
     }
 
     @GetMapping("/user/{id}")
-    public  User GetUserById(@PathVariable("id") String userId) throws Exception {
-
-        return services.GetUserById(userId);
+    public  ResponseEntity<ResponseMessage> GetUserById(@PathVariable("id") String userId) throws Exception {
+            ResponseMessage responseMessage = new ResponseMessage(new SuccessMessage("Success"),services.GetUserById(userId));
+        return ResponseEntity.ok(responseMessage);
     }
 
     @GetMapping("/user/email/{id}")

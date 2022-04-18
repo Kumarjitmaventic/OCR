@@ -1,26 +1,46 @@
 package com.Maventic.OCR.UserServices.Models;
 
-import com.Maventic.OCR.UserServices.Entities.ActivityLog;
-import com.Maventic.OCR.UserServices.Entities.User;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.Map;
-
 
 
 public class SuccessMessage {
 
+    private String message;
+//    private String OtherMessage;
 
-    ArrayList<Object> objects = new ArrayList<Object>();
-
-    private UserAuthenticateResponse userAuthenticateResponse;
-
-    public SuccessMessage(Object o) {
-        objects.add(o);
+    public SuccessMessage() {
     }
 
+//    public SuccessMessage(String message, String otherMessage) {
+//        this.message = message;
+//        OtherMessage = otherMessage;
+//    }
 
+    public SuccessMessage(String message) {
+        this.message = message;
+    }
 
+    public String getMessage() {
+        return message;
+    }
 
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+//    public String getOtherMessage() {
+//        return OtherMessage;
+//    }
+//
+//    public void setOtherMessage(String otherMessage) {
+//        OtherMessage = otherMessage;
+//    }
+
+    @Override
+    public String toString() {
+        return "SuccessMessage{" +
+                "message='" + message + '\'' +
+//                ", OtherMessage='" + OtherMessage + '\'' +
+                '}';
+    }
 }
